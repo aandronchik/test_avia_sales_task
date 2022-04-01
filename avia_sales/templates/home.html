@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
+</head>
+<body>
+<section class="logo">
+    <div class="container">
+        <img class="logo" src="/files/Logo.png">
+    </div>
+</section>
+
+<section class="filter">
+    <div class="container">
+        <div class="filter__wrapper">
+            <div class="filter__block">
+                <div class="filter__item">
+                    <div class="filter__title">
+                        <h1 class="filter__title">
+                            количество пересадок
+                        </h1>
+                    </div>
+
+                    <div class="filter__choice">
+                        <input type="checkbox" id="all" class="checkbox" name="all" value="all" size="140px">
+                        <label class="checkbox" for="all">Все</label>
+                    </div>
+
+                    <div class="filter__choice">
+                        <input type="checkbox" id="no_transfers" class="checkbox" name="no_transfers"
+                               value="no_transfers" size="140px">
+                        <label class="checkbox" for="no_transfers">Без пересадок</label>
+                    </div>
+
+                    <div class="filter__choice">
+                        <input type="checkbox" id="one_transfer" class="checkbox" name="one_transfers"
+                               value="one_transfer" size="140px">
+                        <label class="checkbox" for="one_transfer">1 пересадка</label>
+                    </div>
+
+                    <div class="filter__choice">
+                        <input type="checkbox" id="two_transfers" class="checkbox" name="two_transfers"
+                               value="two_transfers" size="140px">
+                        <label class="checkbox" for="two_transfers">2 пересадки</label>
+                    </div>
+
+                    <div class="filter__choice">
+                        <input type="checkbox" id="three_transfers" class="checkbox" name="three_transfers"
+                               value="three_transfers" size="140px">
+                        <label class="checkbox" for="three_transfers">3 пересадки</label>
+                    </div>
+                </div>
+
+                <div class="button__filter">
+                    <div class="inner">
+                        <button style="border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-right: 0"
+                                id="filter_btn1" type="submit" class="filter_btn" value="lowest">
+                            самый дешевый
+                        </button>
+                    </div>
+
+                    <div class="inner">
+                        <button id="filter_btn2" type="submit" class="filter_btn" value="fastest">самый быстрый</button>
+                    </div>
+
+                    <div class="inner">
+                        <button style="border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-left: 0"
+                                id="filter_btn3" type="submit" class="filter_btn" value="optimal">
+                            оптимальный
+                        </button>
+                    </div>
+                </div>
+                <div class="tickets__block" id="tickets__block">
+
+                </div>
+                <div class="more__tickets__btn" id="more__tickets__btn">
+                    <button class="more__tickets" id="more__tickets">
+                        <div class="btn__text">
+                            показать еще 5 билетов!
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript" src="/src/index.js"></script>
+</body>
+</html>

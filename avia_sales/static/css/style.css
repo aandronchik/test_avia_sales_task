@@ -1,0 +1,287 @@
+body {
+    position: relative;
+    margin: auto;
+    width: 960px;
+    height: 1350px;
+    background: #F3F7FA;
+}
+
+.container {
+    width: 754px;
+    margin: 0 auto;
+}
+
+img.logo {
+    width: 60px;
+    position: absolute;
+    left: 46.88%;
+    right: 46.88%;
+    top: 3.7%;
+    bottom: 91.85%;
+}
+
+h1, h2, h3 {
+    margin: 0;
+}
+
+.filter__wrapper {
+    display: flex;
+    margin: 0 -10px;
+}
+
+.filter__block {
+    width: 50%;
+    padding: 0 10px;
+}
+
+.filter__item {
+    position: absolute;
+    left: 10.73%;
+    right: 65.1%;
+    top: 11.85%;
+    bottom: 69.48%;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+h1.filter__title {
+    color: #4A4A4A;
+    font-style: normal;
+    font-family: "Open Sans";
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    margin: 0;
+    text-transform: uppercase;
+    line-height: 12pt;
+}
+
+div.filter__title {
+    height: 24px;
+    width: 192px;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.filter__choice {
+    width: 232px;
+    height: 40px;
+}
+
+.filter__choice:hover {
+    background: #F1FCFF;
+}
+
+input.checkbox {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 20px;
+    border-radius: 2px;
+    margin-left: 0;
+    margin-top: 10px;
+    border-color: #9ABBCE;
+}
+
+label.checkbox {
+    position: absolute;
+    width: 112px;
+    height: 20px;
+    font-family: "Open Sans";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: left;
+    color: #4A4A4A;
+    display: flex;
+    align-items: center;
+    padding-left: 50px;
+    padding-top: 10px;
+}
+
+.button__filter {
+    position: absolute;
+    width: 502px;
+    height: 50px;
+    left: 355px;
+    top: 160px;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 0;
+}
+
+.inner {
+    white-space : nowrap;
+    display: inline-block;
+}
+
+.filter_btn {
+    width: 167px;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1px solid #DFE5EC;
+    font-family: Open Sans;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #4A4A4A;
+    text-transform: uppercase;
+    line-height: 20px;
+}
+
+.active {
+    background-color: #2196F3;
+    border-color: #2196F3;
+    color: #FFFFFF;
+}
+
+.tickets__block {
+    position: absolute;
+    width: 502px;
+    height: 1000px;
+    left: 355px;
+    top: 230px;
+    text-align: left;
+}
+
+.scroll {
+    overflow-y: scroll;
+}
+
+.ticket__wrapper {
+    margin: 0 0 20px;
+}
+
+.ticket {
+    width: 502px;
+    height: 184px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    display: block;
+}
+
+.ticket__header {
+    position: absolute;
+    width: 462px;
+    height: 36px;
+    margin: 20px 20px;
+}
+
+.ticket__price__title {
+    position: absolute;
+    width: 147px;
+    height: 24px;
+    display: flex;
+    vertical-align: middle;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    color: #2196F3;
+}
+
+.logo_airlines {
+    width: 99px;
+    height: 36px;
+    align-items: center;
+    display: flex;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.flight__info {
+    position: absolute;
+    width: 462px;
+    height: 39px;
+    margin: 76px 20px 69px;
+}
+
+.flight2__info {
+    position: absolute;
+    width: 462px;
+    height: 39px;
+    margin: 125px 20px 20px;
+}
+
+.rout__info {
+    width: 141px;
+    height: 39px;
+    margin-right: 8px;
+    margin-left: 0;
+}
+
+.rout__title {
+    position: absolute;
+    width: 141px;
+
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+
+    color: #A0B0B9;
+}
+
+.rout__data {
+    position: absolute;
+    width: 141px;
+    margin: 20px 0;
+
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+
+    display: flex;
+    align-items: center;
+
+    color: #4A4A4A;
+}
+
+.more__tickets__btn {
+    position: absolute;
+    height: 50px;
+    width: 502px;
+    left: 355px;
+    right: 103px;
+    top: calc(50% - 50px/2 + 600px);
+    align-items: center;
+    display: none;
+}
+
+.more__tickets {
+    width: 502px;
+    height: 50px;
+    background: #2196F3;
+    border-radius: 5px;
+    border: 1px solid #2196F3;
+}
+
+.btn__text {
+    width: 462px;
+    height: 20px;
+    margin: 0 13px;
+
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 20px;
+
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+
+    color: #FFFFFF;
+}
