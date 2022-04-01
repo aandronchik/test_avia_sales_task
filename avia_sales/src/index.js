@@ -1,6 +1,270 @@
-var filter_btn1 = document.getElementById("filter_btn1")
-var filter_btn2 = document.getElementById("filter_btn2")
-var filter_btn3 = document.getElementById("filter_btn3")
+async function set_search_id() {
+    await fetch('https://front-test.beta.aviasales.ru/search')
+        .then(response => response.json())
+        .then(data => localStorage.setItem('searchId', data.searchId));
+    return localStorage.getItem('searchId')
+}
+
+async function set_tickets() {
+    var search_id = await set_search_id()
+    var url = 'https://front-test.beta.aviasales.ru/tickets?searchId=' + search_id
+    await fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            localStorage.setItem('tickets', JSON.stringify(data))
+        })
+        .catch(error => console.log(error.message));
+    return JSON.parse(localStorage.getItem('tickets'))['tickets']
+}
+
+async function main() {
+    var filter_btn1 = document.getElementById("filter_btn1")
+    var filter_btn2 = document.getElementById("filter_btn2")
+    var filter_btn3 = document.getElementById("filter_btn3")
+
+    var checked_no_transfer = document.getElementById("no_transfers")
+    var checked_one_transfer = document.getElementById("one_transfer")
+    var checked_two_transfers = document.getElementById("two_transfers")
+    var checked_three_transfers = document.getElementById("three_transfers")
+    var checked_all = document.getElementById("all")
+
+
+    let ticket_objects_copy = Array()
+    checked_no_transfer.addEventListener("click", function () {
+            let no_transfers = document.getElementById("no_transfers").checked
+            let transfers = Array()
+            if (checked_all.checked) {
+                transfers = [0, 1, 2, 3]
+                checked_all.checked = false
+            } else {
+                if (checked_one_transfer.checked) {
+                    transfers.push(1)
+                }
+                if (checked_two_transfers.checked) {
+                    transfers.push(2)
+                }
+                if (checked_three_transfers.checked) {
+                    transfers.push(3)
+                }
+            }
+
+
+            remove_tickets()
+            tickets_count = 0
+            document.getElementById('more__tickets__btn').style.display = "block";
+            document.getElementById("tickets__block").classList.remove("scroll");
+            if (no_transfers) {
+                transfers.push(0)
+                ticket_objects_copy = get_tickets_by_transfers(transfers, ticket_objects)
+            } else {
+                var index = transfers.indexOf(0);
+                if (index > -1) {
+                    transfers.splice(index, 1)
+                }
+                ticket_objects_copy = get_tickets_by_transfers(transfers, ticket_objects)
+            }
+            tickets_count = tickets_pack(ticket_objects_copy, tickets_count, ticket_objects_copy.length)
+        }
+    )
+
+
+    checked_one_transfer.addEventListener("click", function () {
+            let one_transfer = document.getElementById("one_transfer").checked
+            let transfers = Array()
+            if (checked_all.checked) {
+                transfers = [0, 1, 2, 3]
+                checked_all.checked = false
+            } else {
+                if (checked_no_transfer.checked) {
+                    transfers.push(0)
+                }
+                if (checked_two_transfers.checked) {
+                    transfers.push(2)
+                }
+                if (checked_three_transfers.checked) {
+                    transfers.push(3)
+                }
+            }
+
+            remove_tickets()
+            tickets_count = 0
+            document.getElementById('more__tickets__btn').style.display = "block";
+            document.getElementById("tickets__block").classList.remove("scroll");
+            if (one_transfer) {
+                transfers.push(1)
+                ticket_objects_copy = get_tickets_by_transfers(transfers, ticket_objects)
+            } else {
+                var index = transfers.indexOf(1);
+                if (index > -1) {
+                    transfers.splice(index, 1)
+                }
+                ticket_objects_copy = get_tickets_by_transfers(transfers, ticket_objects)
+            }
+            tickets_count = tickets_pack(ticket_objects_copy, tickets_count, ticket_objects_copy.length)
+
+        }
+    )
+
+
+    checked_two_transfers.addEventListener("click", function () {
+            let two_transfers = document.getElementById("two_transfers").checked
+            let transfers = Array()
+            if (checked_all.checked) {
+                transfers = [0, 1, 2, 3]
+                checked_all.checked = false
+            } else {
+                if (checked_no_transfer.checked) {
+                    transfers.push(0)
+                }
+                if (checked_one_transfer.checked) {
+                    transfers.push(1)
+                }
+                if (checked_three_transfers.checked) {
+                    transfers.push(3)
+                }
+            }
+
+            remove_tickets()
+            tickets_count = 0
+            document.getElementById('more__tickets__btn').style.display = "block";
+            document.getElementById("tickets__block").classList.remove("scroll");
+            if (two_transfers) {
+                transfers.push(2)
+                ticket_objects_copy = get_tickets_by_transfers(transfers, ticket_objects)
+            } else {
+                var index = transfers.indexOf(2);
+                if (index > -1) {
+                    transfers.splice(index, 1)
+                }
+                ticket_objects_copy = get_tickets_by_transfers(transfers, ticket_objects)
+            }
+            tickets_count = tickets_pack(ticket_objects_copy, tickets_count, ticket_objects_copy.length)
+        }
+    )
+
+
+    checked_three_transfers.addEventListener("click", function () {
+            let three_transfers = document.getElementById("three_transfers").checked
+            let transfers = Array()
+            if (checked_all.checked) {
+                transfers = [0, 1, 2, 3]
+                checked_all.checked = false
+            } else {
+                if (checked_no_transfer.checked) {
+                    transfers.push(0)
+                }
+                if (checked_one_transfer.checked) {
+                    transfers.push(1)
+                }
+                if (checked_two_transfers.checked) {
+                    transfers.push(2)
+                }
+            }
+
+            remove_tickets()
+            tickets_count = 0
+            document.getElementById('more__tickets__btn').style.display = "block";
+            document.getElementById("tickets__block").classList.remove("scroll");
+            if (three_transfers) {
+                transfers.push(3)
+                ticket_objects_copy = get_tickets_by_transfers(transfers, ticket_objects)
+            } else {
+                var index = transfers.indexOf(3);
+                if (index > -1) {
+                    transfers.splice(index, 1)
+                }
+                if (transfers.length > 0) {
+                    ticket_objects_copy = get_tickets_by_transfers(transfers, ticket_objects)
+                } else {
+                    ticket_objects_copy = JSON.parse(localStorage.getItem('tickets'))['tickets']
+                }
+            }
+            tickets_count = tickets_pack(ticket_objects_copy, tickets_count, ticket_objects_copy.length)
+        }
+    )
+
+
+    checked_all.addEventListener("click", function () {
+            checked_no_transfer.checked = true
+            checked_one_transfer.checked = true
+            checked_two_transfers.checked = true
+            checked_three_transfers.checked = true
+            remove_tickets()
+            tickets_count = 0
+            ticket_objects = JSON.parse(localStorage.getItem('tickets'))['tickets']
+            tickets_count = tickets_pack(ticket_objects, tickets_count, tickets_amount)
+        }
+    )
+
+
+    // let ticket_objects = JSON.parse(localStorage.getItem('tickets'))['tickets']
+    let ticket_objects = await set_tickets()
+    filter_btn1.addEventListener("click", function () {
+        filter_btn1.classList.add("active")
+        filter_btn2.classList.remove("active")
+        filter_btn3.classList.remove("active")
+        remove_tickets()
+
+        tickets_count = 0
+        document.getElementById('more__tickets__btn').style.display = "block";
+        document.getElementById("tickets__block").classList.remove("scroll");
+        if (ticket_objects_copy.length === 0) {
+            ticket_objects_copy = ticket_objects
+        }
+        ticket_objects_copy = ticket_objects_copy.sort(function (a, b) {
+            return a.price - b.price
+        })
+        tickets_count = tickets_pack(ticket_objects_copy, tickets_count, ticket_objects_copy.length)
+    });
+
+
+    filter_btn2.addEventListener("click", function () {
+        filter_btn2.classList.add("active")
+        filter_btn1.classList.remove("active")
+        filter_btn3.classList.remove("active")
+        remove_tickets()
+
+        tickets_count = 0
+        document.getElementById('more__tickets__btn').style.display = "block";
+        document.getElementById("tickets__block").classList.remove("scroll");
+        if (ticket_objects_copy.length === 0) {
+            ticket_objects_copy = ticket_objects
+        }
+        ticket_objects_copy = ticket_objects_copy.sort(function (a, b) {
+            return (a['segments'][0]['duration'] + a['segments'][1]['duration']) - (b['segments'][0]['duration'] + b['segments'][1]['duration'])
+        })
+
+        tickets_count = tickets_pack(ticket_objects_copy, tickets_count, ticket_objects_copy.length)
+    });
+
+
+    filter_btn3.addEventListener("click", function () {
+        filter_btn3.classList.add("active")
+        filter_btn1.classList.remove("active")
+        filter_btn2.classList.remove("active")
+    });
+
+    var tickets_amount = ticket_objects.length
+    let tickets_count = 0
+    if (tickets_amount > 5 && tickets_count < tickets_amount) {
+        document.getElementById('more__tickets__btn').style.display = "block"
+    }
+
+    tickets_count = tickets_pack(ticket_objects, tickets_count, tickets_amount);
+    let more_tickets_btn = document.getElementById("more__tickets");
+    more_tickets_btn.addEventListener("click", function () {
+        if (ticket_objects_copy.length === 0) {
+            ticket_objects_copy = ticket_objects
+        }
+        if (ticket_objects_copy.length > 5 && tickets_count < ticket_objects_copy.length) {
+            document.getElementById("tickets__block").classList.add("scroll");
+            tickets_count = tickets_pack(ticket_objects_copy, tickets_count, ticket_objects_copy.length);
+            if (tickets_count >= ticket_objects_copy.length) {
+                document.getElementById('more__tickets__btn').style.display = "none"
+            }
+        }
+    });
+}
 
 
 function remove_tickets() {
@@ -13,7 +277,7 @@ function remove_tickets() {
 }
 
 
-function get_tickets_by_transfers(transfers) {
+function get_tickets_by_transfers(transfers, ticket_objects) {
     var ticket_objects_copy = Array();
     switch (transfers.length) {
         case 1:
@@ -56,253 +320,6 @@ function get_tickets_by_transfers(transfers) {
         })
     }
     return ticket_objects_copy
-}
-
-
-var checked_no_transfer = document.getElementById("no_transfers")
-var checked_one_transfer = document.getElementById("one_transfer")
-var checked_two_transfers = document.getElementById("two_transfers")
-var checked_three_transfers = document.getElementById("three_transfers")
-var checked_all = document.getElementById("all")
-
-
-let ticket_objects_copy = Array()
-checked_no_transfer.addEventListener("click", function () {
-        let no_transfers = document.getElementById("no_transfers").checked
-        let transfers = Array()
-        if (checked_all.checked) {
-            transfers = [0, 1, 2, 3]
-            checked_all.checked = false
-        } else {
-            if (checked_one_transfer.checked) {
-                transfers.push(1)
-            }
-            if (checked_two_transfers.checked) {
-                transfers.push(2)
-            }
-            if (checked_three_transfers.checked) {
-                transfers.push(3)
-            }
-        }
-
-
-        remove_tickets()
-        tickets_count = 0
-        document.getElementById('more__tickets__btn').style.display = "block";
-        document.getElementById("tickets__block").classList.remove("scroll");
-        if (no_transfers) {
-            transfers.push(0)
-            ticket_objects_copy = get_tickets_by_transfers(transfers)
-        } else {
-            var index = transfers.indexOf(0);
-            if (index > -1) {
-                transfers.splice(index, 1)
-            }
-            ticket_objects_copy = get_tickets_by_transfers(transfers)
-            // ticket_objects_copy = JSON.parse(localStorage.getItem('tickets'))['tickets']
-        }
-        tickets_count = tickets_pack(ticket_objects_copy, tickets_count, ticket_objects_copy.length)
-    }
-)
-
-
-checked_one_transfer.addEventListener("click", function () {
-        let one_transfer = document.getElementById("one_transfer").checked
-        let transfers = Array()
-        if (checked_all.checked) {
-            transfers = [0, 1, 2, 3]
-            checked_all.checked = false
-        } else {
-            if (checked_no_transfer.checked) {
-                transfers.push(0)
-            }
-            if (checked_two_transfers.checked) {
-                transfers.push(2)
-            }
-            if (checked_three_transfers.checked) {
-                transfers.push(3)
-            }
-        }
-
-        remove_tickets()
-        tickets_count = 0
-        document.getElementById('more__tickets__btn').style.display = "block";
-        document.getElementById("tickets__block").classList.remove("scroll");
-        if (one_transfer) {
-            transfers.push(1)
-            ticket_objects_copy = get_tickets_by_transfers(transfers)
-        } else {
-            var index = transfers.indexOf(1);
-            if (index > -1) {
-                transfers.splice(index, 1)
-            }
-            ticket_objects_copy = get_tickets_by_transfers(transfers)
-            // ticket_objects_copy = JSON.parse(localStorage.getItem('tickets'))['tickets']
-        }
-        tickets_count = tickets_pack(ticket_objects_copy, tickets_count, ticket_objects_copy.length)
-
-    }
-)
-
-
-checked_two_transfers.addEventListener("click", function () {
-        let two_transfers = document.getElementById("two_transfers").checked
-        let transfers = Array()
-        if (checked_all.checked) {
-            transfers = [0, 1, 2, 3]
-            checked_all.checked = false
-        } else {
-            if (checked_no_transfer.checked) {
-                transfers.push(0)
-            }
-            if (checked_one_transfer.checked) {
-                transfers.push(1)
-            }
-            if (checked_three_transfers.checked) {
-                transfers.push(3)
-            }
-        }
-
-        remove_tickets()
-        tickets_count = 0
-        document.getElementById('more__tickets__btn').style.display = "block";
-        document.getElementById("tickets__block").classList.remove("scroll");
-        if (two_transfers) {
-            transfers.push(2)
-            ticket_objects_copy = get_tickets_by_transfers(transfers)
-        } else {
-            var index = transfers.indexOf(2);
-            if (index > -1) {
-                transfers.splice(index, 1)
-            }
-            ticket_objects_copy = get_tickets_by_transfers(transfers)
-            // ticket_objects_copy = JSON.parse(localStorage.getItem('tickets'))['tickets']
-        }
-        tickets_count = tickets_pack(ticket_objects_copy, tickets_count, ticket_objects_copy.length)
-    }
-)
-
-
-checked_three_transfers.addEventListener("click", function () {
-        let three_transfers = document.getElementById("three_transfers").checked
-        let transfers = Array()
-        if (checked_all.checked) {
-            transfers = [0, 1, 2, 3]
-            checked_all.checked = false
-        } else {
-            if (checked_no_transfer.checked) {
-                transfers.push(0)
-            }
-            if (checked_one_transfer.checked) {
-                transfers.push(1)
-            }
-            if (checked_two_transfers.checked) {
-                transfers.push(2)
-            }
-        }
-
-        remove_tickets()
-        tickets_count = 0
-        document.getElementById('more__tickets__btn').style.display = "block";
-        document.getElementById("tickets__block").classList.remove("scroll");
-        if (three_transfers) {
-            transfers.push(3)
-            ticket_objects_copy = get_tickets_by_transfers(transfers)
-        } else {
-            var index = transfers.indexOf(3);
-            if (index > -1) {
-                transfers.splice(index, 1)
-            }
-            if (transfers.length > 0) {
-                ticket_objects_copy = get_tickets_by_transfers(transfers)
-            } else {
-                ticket_objects_copy = JSON.parse(localStorage.getItem('tickets'))['tickets']
-            }
-        }
-        tickets_count = tickets_pack(ticket_objects_copy, tickets_count, ticket_objects_copy.length)
-    }
-)
-
-
-checked_all.addEventListener("click", function () {
-        checked_no_transfer.checked = true
-        checked_one_transfer.checked = true
-        checked_two_transfers.checked = true
-        checked_three_transfers.checked = true
-        remove_tickets()
-        tickets_count = 0
-        ticket_objects = JSON.parse(localStorage.getItem('tickets'))['tickets']
-        tickets_count = tickets_pack(ticket_objects, tickets_count, tickets_amount)
-    }
-)
-
-
-let ticket_objects = JSON.parse(localStorage.getItem('tickets'))['tickets']
-filter_btn1.addEventListener("click", function () {
-    filter_btn1.classList.add("active")
-    filter_btn2.classList.remove("active")
-    filter_btn3.classList.remove("active")
-    remove_tickets()
-
-    tickets_count = 0
-    document.getElementById('more__tickets__btn').style.display = "block";
-    document.getElementById("tickets__block").classList.remove("scroll");
-    if (ticket_objects_copy.length === 0) {
-        ticket_objects_copy = ticket_objects
-    }
-    ticket_objects_copy = ticket_objects_copy.sort(function (a, b) {
-        return a.price - b.price
-    })
-    tickets_count = tickets_pack(ticket_objects_copy, tickets_count, ticket_objects_copy.length)
-});
-
-
-filter_btn2.addEventListener("click", function () {
-    filter_btn2.classList.add("active")
-    filter_btn1.classList.remove("active")
-    filter_btn3.classList.remove("active")
-    remove_tickets()
-
-    tickets_count = 0
-    document.getElementById('more__tickets__btn').style.display = "block";
-    document.getElementById("tickets__block").classList.remove("scroll");
-    if (ticket_objects_copy.length === 0) {
-        ticket_objects_copy = ticket_objects
-    }
-    ticket_objects_copy = ticket_objects_copy.sort(function (a, b) {
-        return (a['segments'][0]['duration'] + a['segments'][1]['duration']) - (b['segments'][0]['duration'] + b['segments'][1]['duration'])
-    })
-
-    tickets_count = tickets_pack(ticket_objects_copy, tickets_count, ticket_objects_copy.length)
-});
-
-
-filter_btn3.addEventListener("click", function () {
-    filter_btn3.classList.add("active")
-    filter_btn1.classList.remove("active")
-    filter_btn2.classList.remove("active")
-});
-
-
-fetch('https://front-test.beta.aviasales.ru/search')
-    .then(response => response.json())
-    .then(data => localStorage.setItem('searchId', data.searchId));
-
-
-search_id = localStorage.getItem('searchId')
-var url = 'https://front-test.beta.aviasales.ru/tickets?searchId=' + search_id
-fetch(url)
-    .then(response => response.json())
-    .then(data => {
-        localStorage.setItem('tickets', JSON.stringify(data))
-    })
-    .catch(error => console.log(error.message));
-
-
-var tickets_amount = ticket_objects.length
-let tickets_count = 0
-if (tickets_amount > 5 && tickets_count < tickets_amount) {
-    document.getElementById('more__tickets__btn').style.display = "block"
 }
 
 
@@ -451,18 +468,5 @@ function tickets_pack(ticket_objects, tickets_count, tickets_amount) {
     return tickets_count;
 }
 
-
-tickets_count = tickets_pack(ticket_objects, tickets_count, tickets_amount);
-more_tickets_btn = document.getElementById("more__tickets");
-more_tickets_btn.addEventListener("click", function () {
-    if (ticket_objects_copy.length === 0) {
-        ticket_objects_copy = ticket_objects
-    }
-    if (ticket_objects_copy.length > 5 && tickets_count < ticket_objects_copy.length) {
-        document.getElementById("tickets__block").classList.add("scroll");
-        tickets_count = tickets_pack(ticket_objects_copy, tickets_count, ticket_objects_copy.length);
-        if (tickets_count >= ticket_objects_copy.length) {
-            document.getElementById('more__tickets__btn').style.display = "none"
-        }
-    }
-});
+main().then(r => {
+})
